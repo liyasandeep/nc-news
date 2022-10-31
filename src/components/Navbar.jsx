@@ -13,12 +13,12 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/list_all_topics" className="link black">
+          <Link to="/topics" className="link black">
             TOPICS
           </Link>
         </li>
         <li>
-          <Link to="/list_all_articles" className="link black">
+          <Link to="/articles" className="link black">
             ARTICLES
           </Link>
         </li>

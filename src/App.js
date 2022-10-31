@@ -5,6 +5,7 @@ import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import ListRecentArticles from "./components/ListRecentArticles";
+import ListAllArticles from "./components/ListAllArticles";
 
 function App() {
   const [user, setUser] = useState("tickle122");
@@ -17,6 +18,7 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<ListRecentArticles />}></Route>
+              <Route path="/articles" element={<ListAllArticles />}></Route>
             </Routes>
           </main>
         </div>
