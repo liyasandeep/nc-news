@@ -26,3 +26,10 @@ export const getArticleById = (article_id) => {
     return data.article;
   });
 };
+export const updateArticleVote = (article_id, voteCount) => {
+  return myApi
+    .patch(`/articles/${article_id}`, { inc_votes: voteCount })
+    .then(({ data }) => {
+      return data.article;
+    });
+};
