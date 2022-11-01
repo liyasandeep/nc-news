@@ -10,7 +10,6 @@ const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [article, setArticle] = useState("");
   const [voteChangeValue, setVoteChangeValue] = useState(0);
-  const [error, setError] = useState(null);
 
   const { article_id } = useParams();
 
@@ -23,7 +22,6 @@ const SingleArticle = () => {
 
   const handleVoteIncreaseClick = () => {
     setVoteChangeValue((currVote) => currVote + 1);
-    // setError(null);
 
     API.updateArticleVote(article_id, 1)
       .then((article) => {
@@ -31,25 +29,21 @@ const SingleArticle = () => {
       })
       .catch((err) => {
         setVoteChangeValue((currVote) => currVote - 1);
-        // setError("OOPS!!!, Something went wrong, please try again later");
         toast.error("OOPS!!!, Something went wrong, please try again later");
       });
   };
 
   const handleVoteDecreaseClick = () => {
     setVoteChangeValue((currVote) => currVote - 1);
-    // setError(null);
     API.updateArticleVote(article_id, -1)
       .then((article) => {
         toast.success("Successfully updated vote!");
       })
       .catch((err) => {
         setVoteChangeValue((currVote) => currVote + 1);
-        // setError("OOPS!!!, Something went wrong, please try again later");
         toast.error("OOPS!!!, Something went wrong, please try again later");
       });
   };
-  if (error) return <Toaster />;
 
   return isLoading ? (
     <p>Loading ...</p>
