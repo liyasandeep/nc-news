@@ -1,19 +1,52 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
-
+import { BiUpvote } from "react-icons/bi";
+import { BiDownvote } from "react-icons/bi";
 import * as API from "../api";
+
 const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [article, setArticle] = useState("");
+  const [voteChangeValue, setVoteChangeValue] = useState(0);
+  const [err, setErr] = useState(null);
 
   const { article_id } = useParams();
+
   useEffect(() => {
     API.getArticleById(article_id).then((article) => {
       setArticle(article);
       setIsLoading(false);
     });
   }, []);
+
+  const handleVoteIncreaseClick = () => {
+    setVoteChangeValue((currVote) => currVote + 1);
+    setErr(null);
+
+    API.updateArticleVote(article_id, 1)
+      .then((article) => {
+        console.log(article.votes);
+      })
+      .catch((err) => {
+        setVoteChangeValue((currVote) => currVote - 1);
+        setErr("OOPS!!!, Something went wrong, please try again later");
+      });
+  };
+
+  const handleVoteDecreaseClick = () => {
+    setVoteChangeValue((currVote) => currVote - 1);
+    setErr(null);
+    API.updateArticleVote(article_id, -1)
+      .then((article) => {
+        console.log(article.votes);
+      })
+      .catch((err) => {
+        setVoteChangeValue((currVote) => currVote + 1);
+        setErr("OOPS!!!, Something went wrong, please try again later");
+      });
+  };
+
   return isLoading ? (
     <p>Loading ...</p>
   ) : (
@@ -36,8 +69,11 @@ const SingleArticle = () => {
           <FaRegCommentAlt /> {article.comment_count} <strong>Comments</strong>
         </span>
         <span>
-          {article.votes} <strong>Votes</strong>
+          {article.votes + voteChangeValue} <strong>Votes</strong>
         </span>
+        <BiUpvote onClick={handleVoteIncreaseClick} className="votebtn" />
+
+        <BiDownvote onClick={handleVoteDecreaseClick} className="votebtn" />
       </div>
     </div>
   );
