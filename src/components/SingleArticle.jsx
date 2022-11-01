@@ -9,13 +9,11 @@ const SingleArticle = () => {
 
   const { article_id } = useParams();
   useEffect(() => {
-    setIsLoading(true);
-
     API.getArticleById(article_id).then((article) => {
       setArticle(article);
       setIsLoading(false);
     });
-  }, [article_id]);
+  }, []);
   return isLoading ? (
     <p>Loading ...</p>
   ) : (
