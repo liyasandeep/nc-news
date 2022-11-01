@@ -3,7 +3,10 @@ const ArticleCard = ({ article }) => {
   return (
     <li className="articlecard">
       <p className="topic">
-        In <span> {article.topic}</span>
+        In{" "}
+        <Link to={`/topics/${article.topic}`} className="link black">
+          <span> {article.topic}</span>
+        </Link>
       </p>
       <p className="postedBy">
         Posted by <span>{article.author}</span> on{" "}
