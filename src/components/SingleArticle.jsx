@@ -25,7 +25,7 @@ const SingleArticle = () => {
 
     API.updateArticleVote(article_id, 1)
       .then((article) => {
-        toast.success("Successfully updated vote!");
+        // toast.success("Successfully updated vote!");
       })
       .catch((err) => {
         setVoteChangeValue((currVote) => currVote - 1);
@@ -37,7 +37,7 @@ const SingleArticle = () => {
     setVoteChangeValue((currVote) => currVote - 1);
     API.updateArticleVote(article_id, -1)
       .then((article) => {
-        toast.success("Successfully updated vote!");
+        // toast.success("Successfully updated vote!");
       })
       .catch((err) => {
         setVoteChangeValue((currVote) => currVote + 1);
