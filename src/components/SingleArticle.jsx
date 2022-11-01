@@ -74,9 +74,20 @@ const SingleArticle = () => {
           <span>
             {article.votes + voteChangeValue} <strong>Votes</strong>
           </span>
-          <BiUpvote onClick={handleVoteIncreaseClick} className="votebtn" />
-
-          <BiDownvote onClick={handleVoteDecreaseClick} className="votebtn" />
+          <button
+            disabled={voteChangeValue === 1}
+            onClick={handleVoteIncreaseClick}
+            className="votebtn"
+          >
+            <BiUpvote />
+          </button>
+          <button
+            disabled={voteChangeValue === -1}
+            onClick={handleVoteDecreaseClick}
+            className="votebtn"
+          >
+            <BiDownvote />
+          </button>
         </div>
       </div>
     </>
