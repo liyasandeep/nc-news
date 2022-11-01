@@ -2,12 +2,12 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { UserContext } from "./contexts/UserContext";
-// import * as API from "./api";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import ListRecentArticles from "./components/ListRecentArticles";
 import ListAllArticles from "./components/ListAllArticles";
 import ListAllTopics from "./components/ListAllTopics";
+import SingleArticle from "./components/SingleArticle";
 
 function App() {
   const [user, setUser] = useState("tickle122");
@@ -27,6 +27,10 @@ function App() {
                 element={<ListAllArticles />}
               ></Route>
               <Route path="/topics" element={<ListAllTopics />}></Route>
+              <Route
+                path="/articles/:article_id"
+                element={<SingleArticle />}
+              ></Route>
             </Routes>
           </main>
         </div>
