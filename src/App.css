@@ -136,6 +136,11 @@ section ul {
   padding: 10px 10px 10px 0px;
   margin: 10px;
 }
+
+.votebtn {
+  margin: 0 5px;
+  padding: 0 5px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
