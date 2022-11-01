@@ -5,11 +5,11 @@ const ArticleCard = ({ article }) => {
       <p className="topic">
         In{" "}
         <Link to={`/topics/${article.topic}`} className="link black">
-          <span> {article.topic}</span>
+          <strong> {article.topic}</strong>
         </Link>
       </p>
       <p className="postedBy">
-        Posted by <span>{article.author}</span> on{" "}
+        Posted by <strong>{article.author}</strong> on{" "}
         {new Date(article.created_at).toDateString()}{" "}
       </p>
       <Link to={`/articles/${article.article_id}`} className="link black">
