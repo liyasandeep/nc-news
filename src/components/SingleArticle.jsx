@@ -4,6 +4,7 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
+import CommentContainer from "./CommentContainer";
 import * as API from "../api";
 
 const SingleArticle = () => {
@@ -89,6 +90,9 @@ const SingleArticle = () => {
             <BiDownvote />
           </button>
         </div>
+      </div>
+      <div className="comment-container">
+        <CommentContainer article_id={article_id} />
       </div>
     </>
   );
