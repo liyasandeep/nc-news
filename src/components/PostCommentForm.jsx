@@ -2,17 +2,20 @@ import { useState } from "react";
 import * as API from "../api";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const PostCommentForm = ({ article_id, setCommentList, setIsLoading }) => {
   const { user } = useContext(UserContext);
   const [newComment, setNewComment] = useState("");
+  const [isPostingComment, setIsPostingComment] = useState(false);
 
   const handleChange = (event) => {
     setNewComment(event.target.value);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    //make button disable here
+
+    setIsPostingComment(true);
     API.postCommentForArticle(article_id, user, newComment)
       .then((comment) => {
         console.log(comment);
@@ -20,26 +23,37 @@ const PostCommentForm = ({ article_id, setCommentList, setIsLoading }) => {
           return [comment, ...currentCommentList];
         });
         setNewComment("");
-        //enable button here
+        toast.success("Successfully posted the comment!");
+
+        setIsPostingComment(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   return (
-    <form className="comment-form" onSubmit={handleSubmit}>
-      <textarea
-        name="comment"
-        id="comment-textarea"
-        cols="80"
-        rows="3"
-        placeholder="Write Your Comment Here..."
-        value={newComment}
-        onChange={handleChange}
-      ></textarea>
+    <>
+      <div>
+        <Toaster position="top-center" reverseOrder={false} />
+      </div>
+      <form className="comment-form" onSubmit={handleSubmit}>
+        <textarea
+          name="comment"
+          id="comment-textarea"
+          cols="80"
+          rows="3"
+          placeholder="Write Your Comment Here..."
+          value={newComment}
+          onChange={handleChange}
+          required
+          disabled={isPostingComment}
+        ></textarea>
 
-      <button className="comment-btn">Comment</button>
-    </form>
+        <button className="comment-btn" disabled={isPostingComment}>
+          Comment
+        </button>
+      </form>
+    </>
   );
 };
 export default PostCommentForm;
