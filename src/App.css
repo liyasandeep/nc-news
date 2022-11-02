@@ -143,6 +143,29 @@ section ul {
   border: none;
   background-color: initial;
 }
+.comment-container {
+  border: 1px solid antiquewhite;
+  margin: 30px 40px 10px 30px;
+  padding: 10px 10px 40px 10px;
+  border-radius: 10px;
+}
+ul {
+  list-style: none;
+}
+.commentcard {
+  border-bottom: 1px solid antiquewhite;
+  margin-bottom: 30px;
+}
+.comment-body {
+  text-align: justify;
+  margin: 15px 30px;
+}
+.vote {
+  padding: 0 30px;
+  margin: 10px 5px;
+  text-align: left;
+  display: block;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

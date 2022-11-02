@@ -6,7 +6,7 @@ const CommentCard = ({ comment }) => {
         {new Date(comment.created_at).toDateString()}
       </p>
       <p className="comment-body">{comment.body}</p>
-      <span>
+      <span className="vote">
         {comment.votes} <strong>Votes</strong>
       </span>
     </li>
