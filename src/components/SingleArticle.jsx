@@ -12,12 +12,22 @@ const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [article, setArticle] = useState("");
   const [voteChangeValue, setVoteChangeValue] = useState(0);
+  const [commentList, setCommentList] = useState([]);
 
   const { article_id } = useParams();
 
   useEffect(() => {
+    setIsLoading(true);
     API.getArticleById(article_id).then((article) => {
       setArticle(article);
+      setIsLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    API.getCommentsByArticleId(article_id).then((comments) => {
+      setCommentList(comments);
       setIsLoading(false);
     });
   }, []);
@@ -91,10 +101,14 @@ const SingleArticle = () => {
             <BiDownvote />
           </button>
         </div>
-        <PostCommentForm />
+        <PostCommentForm
+          article_id={article_id}
+          setCommentList={setCommentList}
+          setIsLoading={setIsLoading}
+        />
       </div>
       <div className="comment-container">
-        <CommentContainer article_id={article_id} />
+        <CommentContainer commentList={commentList} isLoading={isLoading} />
       </div>
     </>
   );

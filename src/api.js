@@ -39,3 +39,13 @@ export const getCommentsByArticleId = (article_id) => {
     return data.comments;
   });
 };
+export const postCommentForArticle = (article_id, author, commentBody) => {
+  return myApi
+    .post(`/articles/${article_id}/comments`, {
+      username: author,
+      body: commentBody,
+    })
+    .then(({ data }) => {
+      return data.comment;
+    });
+};
