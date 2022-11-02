@@ -1,5 +1,37 @@
 import { Link } from "react-router-dom";
+import { FaRegCommentAlt } from "react-icons/fa";
+import { BiUpvote } from "react-icons/bi";
+import { BiDownvote } from "react-icons/bi";
+import * as API from "../api";
+import { useEffect, useState } from "react";
+
 const ArticleCard = ({ article }) => {
+  const [voteChangeValue, setVoteChangeValue] = useState(0);
+  const handleVoteIncreaseClick = (article_id) => {
+    setVoteChangeValue((currVote) => currVote + 1);
+
+    API.updateArticleVote(article_id, 1)
+      .then((article) => {
+        console.log(article.votes);
+      })
+      .catch((err) => {
+        setVoteChangeValue((currVote) => currVote - 1);
+      });
+  };
+
+  const handleVoteDecreaseClick = (article_id) => {
+    setVoteChangeValue((currVote) => currVote - 1);
+
+    API.updateArticleVote(article_id, -1)
+      .then((article) => {
+        console.log(article.votes);
+      })
+      .catch((err) => {
+        setVoteChangeValue((currVote) => currVote + 1);
+        // setErr("OOPS!!!, Something went wrong, please try again later");
+      });
+  };
+
   return (
     <li className="articlecard">
       <p className="topic">
@@ -15,6 +47,35 @@ const ArticleCard = ({ article }) => {
       <Link to={`/articles/${article.article_id}`} className="link black">
         <h3 className="article-title">{article.title}</h3>
       </Link>
+
+      <div className="comment-vote-container">
+        <span className="comment">
+          <FaRegCommentAlt /> {article.comment_count}
+          <Link to={`/articles/${article.article_id}`} className="link black">
+            {" "}
+            <strong>Comments</strong>
+          </Link>
+        </span>
+        <span>
+          {article.votes + voteChangeValue} <strong>Votes</strong>
+        </span>
+
+        <button
+          disabled={voteChangeValue === 1}
+          onClick={() => handleVoteIncreaseClick(article.article_id)}
+          className="votebtn"
+        >
+          <BiUpvote />
+        </button>
+
+        <button
+          disabled={voteChangeValue === -1}
+          onClick={() => handleVoteDecreaseClick(article.article_id)}
+          className="votebtn"
+        >
+          <BiDownvote />
+        </button>
+      </div>
     </li>
   );
 };
