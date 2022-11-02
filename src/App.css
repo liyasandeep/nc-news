@@ -166,6 +166,29 @@ ul {
   text-align: left;
   display: block;
 }
+.comment-form {
+  text-align: left;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+#comment-textarea {
+  border: 1px solid antiquewhite;
+  padding: 10px;
+  border-radius: 10px;
+}
+#comment-label {
+  border: 1px solid antiquewhite;
+
+  border-radius: 10px;
+}
+.comment-btn {
+  margin-left: 15px;
+  padding: 5px 15px 5px 15px;
+  border-radius: 10px;
+  border: 1px solid gray;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

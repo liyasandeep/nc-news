@@ -5,6 +5,7 @@ import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
 import CommentContainer from "./CommentContainer";
+import PostCommentForm from "./PostCommentForm";
 import * as API from "../api";
 
 const SingleArticle = () => {
@@ -90,6 +91,7 @@ const SingleArticle = () => {
             <BiDownvote />
           </button>
         </div>
+        <PostCommentForm />
       </div>
       <div className="comment-container">
         <CommentContainer article_id={article_id} />
