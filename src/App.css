@@ -90,8 +90,8 @@ section ul {
 }
 .article-title {
   text-align: left;
-  padding-bottom: 15px;
-  margin: 30px;
+  padding-bottom: 10px;
+  margin: 20px;
 }
 .topic-list {
   margin-right: 40px;
@@ -124,11 +124,11 @@ section ul {
 }
 .article-info .article-title {
   margin-bottom: 15px;
-  padding-bottom: 0px;
+  padding-bottom: 15px;
 }
 
 .comment-vote-container {
-  margin: 20px 20px 0px 20px;
+  margin: 20px;
   text-align: initial;
 }
 .comment {
@@ -142,6 +142,29 @@ section ul {
   padding: 0 5px;
   border: none;
   background-color: initial;
+}
+.comment-container {
+  border: 1px solid antiquewhite;
+  margin: 30px 40px 10px 30px;
+  padding: 10px 10px 40px 10px;
+  border-radius: 10px;
+}
+ul {
+  list-style: none;
+}
+.commentcard {
+  border-bottom: 1px solid antiquewhite;
+  margin-bottom: 30px;
+}
+.comment-body {
+  text-align: justify;
+  margin: 15px 30px;
+}
+.vote {
+  padding: 0 30px;
+  margin: 10px 5px;
+  text-align: left;
+  display: block;
 }
 @keyframes App-logo-spin {
   from {

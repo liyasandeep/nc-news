@@ -33,3 +33,9 @@ export const updateArticleVote = (article_id, voteCount) => {
       return data.article;
     });
 };
+
+export const getCommentsByArticleId = (article_id) => {
+  return myApi.get(`/articles/${article_id}/comments`).then(({ data }) => {
+    return data.comments;
+  });
+};
