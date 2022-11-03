@@ -35,26 +35,18 @@ const SingleArticle = () => {
   const handleVoteIncreaseClick = () => {
     setVoteChangeValue((currVote) => currVote + 1);
 
-    API.updateArticleVote(article_id, 1)
-      .then((article) => {
-        // toast.success("Successfully updated vote!");
-      })
-      .catch((err) => {
-        setVoteChangeValue((currVote) => currVote - 1);
-        toast.error("OOPS!!!, Something went wrong, please try again later");
-      });
+    API.updateArticleVote(article_id, 1).catch((err) => {
+      setVoteChangeValue((currVote) => currVote - 1);
+      toast.error("OOPS!!!, Something went wrong, please try again later");
+    });
   };
 
   const handleVoteDecreaseClick = () => {
     setVoteChangeValue((currVote) => currVote - 1);
-    API.updateArticleVote(article_id, -1)
-      .then((article) => {
-        // toast.success("Successfully updated vote!");
-      })
-      .catch((err) => {
-        setVoteChangeValue((currVote) => currVote + 1);
-        toast.error("OOPS!!!, Something went wrong, please try again later");
-      });
+    API.updateArticleVote(article_id, -1).catch((err) => {
+      setVoteChangeValue((currVote) => currVote + 1);
+      toast.error("OOPS!!!, Something went wrong, please try again later");
+    });
   };
 
   return isLoading ? (
