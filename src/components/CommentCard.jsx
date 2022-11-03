@@ -9,32 +9,31 @@ const CommentCard = ({ comment, setCommentList, setCommentCountChange }) => {
 
   useEffect(() => {});
   const handleClick = (commentId) => {
-    console.log(commentId, "up");
-    setCommentList((currentCommentList) => {
-      let newCommentList = [...currentCommentList];
-      newCommentList = newCommentList.filter((comment) => {
-        return comment.comment_id !== commentId;
-      });
-      return newCommentList;
-    });
+    setIsDeleting(true);
+
     setCommentCountChange((currentCount) => {
       return currentCount - 1;
     });
-    console.log(commentId, "id");
+
     API.deleteCommentById(commentId)
       .then(() => {
+        setCommentList((currentCommentList) => {
+          let newCommentList = [...currentCommentList];
+
+          newCommentList = newCommentList.filter((comment) => {
+            return comment.comment_id !== commentId;
+          });
+          return newCommentList;
+        });
         toast.success("Successfully deleted the comment!");
+        setIsDeleting(false);
       })
       .catch((err) => {
-        toast.error("OOPS!!!,Something went wrong, please try again later");
-        // setCommentList((currentCommentList) => {
-        //   const newCommentList = [...currentCommentList];
-        //   newCommentList.shift();
-        //   return newCommentList;
-        // });
         setCommentCountChange((currentCount) => {
           return currentCount + 1;
         });
+        toast.error("OOPS!!!,Something went wrong, please try again later");
+        setIsDeleting(false);
       });
   };
   return (
@@ -51,15 +50,19 @@ const CommentCard = ({ comment, setCommentList, setCommentCountChange }) => {
           <span className="vote">
             {comment.votes} <strong>Votes</strong>
           </span>
-          <button
-            id="delete-btn"
-            disabled={comment.author !== user}
-            onClick={() => {
-              handleClick(comment.comment_id);
-            }}
-          >
-            <RiDeleteBinLine />
-          </button>
+          {comment.author === user ? (
+            <button
+              id="delete-btn"
+              disabled={isDeleting}
+              onClick={() => {
+                handleClick(comment.comment_id);
+              }}
+            >
+              <RiDeleteBinLine />
+            </button>
+          ) : (
+            ""
+          )}
         </p>
       </li>
     </>
