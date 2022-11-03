@@ -7,9 +7,9 @@ export const getAllArticles = (topic, sort_by, order) => {
   return myApi
     .get("/articles", {
       params: {
-        topic: topic,
-        sory_by: sort_by,
+        sort_by: sort_by,
         order: order,
+        topic: topic,
       },
     })
     .then(({ data }) => {
