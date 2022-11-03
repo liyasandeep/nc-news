@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as API from "../api";
 import ArticleCard from "../components/ArticleCard";
+import SortAndOrderSection from "./SortAndOrderSection";
 
 const ListAllArticles = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +22,15 @@ const ListAllArticles = () => {
   ) : (
     <section className="article-list">
       {topicName ? (
-        <h2> Articles in {`${topicName}`}</h2>
+        <>
+          <h2> Articles in {`${topicName}`}</h2>
+          <SortAndOrderSection />
+        </>
       ) : (
-        <h2>All Articles</h2>
+        <>
+          <h2>All Articles</h2>
+          <SortAndOrderSection />
+        </>
       )}
       <ul>
         {articleList.map((article) => {
