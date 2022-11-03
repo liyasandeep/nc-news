@@ -5,18 +5,29 @@ import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
 import CommentContainer from "./CommentContainer";
+import PostCommentForm from "./PostCommentForm";
 import * as API from "../api";
 
 const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [article, setArticle] = useState("");
   const [voteChangeValue, setVoteChangeValue] = useState(0);
-
+  const [commentList, setCommentList] = useState([]);
+  const [commentCountChange, setCommentCountChange] = useState(0);
   const { article_id } = useParams();
 
   useEffect(() => {
+    setIsLoading(true);
     API.getArticleById(article_id).then((article) => {
       setArticle(article);
+      setIsLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    API.getCommentsByArticleId(article_id).then((comments) => {
+      setCommentList(comments);
       setIsLoading(false);
     });
   }, []);
@@ -53,6 +64,7 @@ const SingleArticle = () => {
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
+
       <div className="article-info">
         <p className="topic">
           In{" "}
@@ -69,8 +81,11 @@ const SingleArticle = () => {
 
         <div className="comment-vote-container">
           <span className="comment">
-            <FaRegCommentAlt /> {article.comment_count}{" "}
-            <strong>Comments</strong>
+            <FaRegCommentAlt /> {console.log(commentCountChange)}
+            {commentCountChange
+              ? article.comment_count + commentCountChange
+              : article.comment_count}
+            <strong> Comments</strong>
           </span>
           <span>
             {article.votes + voteChangeValue} <strong>Votes</strong>
@@ -90,9 +105,14 @@ const SingleArticle = () => {
             <BiDownvote />
           </button>
         </div>
+        <PostCommentForm
+          article_id={article_id}
+          setCommentList={setCommentList}
+          setCommentCountChange={setCommentCountChange}
+        />
       </div>
       <div className="comment-container">
-        <CommentContainer article_id={article_id} />
+        <CommentContainer commentList={commentList} isLoading={isLoading} />
       </div>
     </>
   );
