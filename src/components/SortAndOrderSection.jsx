@@ -1,7 +1,9 @@
-import { useState } from "react";
-const SortAndOrderSection = () => {
-  const [selectSortValue, setSelectSortValue] = useState("created_at");
-  const [selectOrderValue, setSelectOrderValue] = useState("desc");
+const SortAndOrderSection = ({
+  selectSortValue,
+  setSelectSortValue,
+  selectOrderValue,
+  setSelectOrderValue,
+}) => {
   const handleChange = (event) => {
     if (event.target.name === "sort") {
       setSelectSortValue(event.target.value);
