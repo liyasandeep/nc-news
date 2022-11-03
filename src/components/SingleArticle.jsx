@@ -13,7 +13,7 @@ const SingleArticle = () => {
   const [article, setArticle] = useState("");
   const [voteChangeValue, setVoteChangeValue] = useState(0);
   const [commentList, setCommentList] = useState([]);
-
+  const [commentCountChange, setCommentCountChange] = useState(0);
   const { article_id } = useParams();
 
   useEffect(() => {
@@ -64,6 +64,7 @@ const SingleArticle = () => {
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
+
       <div className="article-info">
         <p className="topic">
           In{" "}
@@ -80,8 +81,11 @@ const SingleArticle = () => {
 
         <div className="comment-vote-container">
           <span className="comment">
-            <FaRegCommentAlt /> {article.comment_count}{" "}
-            <strong>Comments</strong>
+            <FaRegCommentAlt /> {console.log(commentCountChange)}
+            {commentCountChange
+              ? article.comment_count + commentCountChange
+              : article.comment_count}
+            <strong> Comments</strong>
           </span>
           <span>
             {article.votes + voteChangeValue} <strong>Votes</strong>
@@ -104,7 +108,7 @@ const SingleArticle = () => {
         <PostCommentForm
           article_id={article_id}
           setCommentList={setCommentList}
-          setIsLoading={setIsLoading}
+          setCommentCountChange={setCommentCountChange}
         />
       </div>
       <div className="comment-container">

@@ -4,7 +4,11 @@ import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import toast, { Toaster } from "react-hot-toast";
 
-const PostCommentForm = ({ article_id, setCommentList, setIsLoading }) => {
+const PostCommentForm = ({
+  article_id,
+  setCommentList,
+  setCommentCountChange,
+}) => {
   const { user } = useContext(UserContext);
   const [newComment, setNewComment] = useState("");
   const [isPostingComment, setIsPostingComment] = useState(false);
@@ -14,21 +18,40 @@ const PostCommentForm = ({ article_id, setCommentList, setIsLoading }) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const comment = {
+      author: user,
+      body: newComment,
+      created_at: Date.now(),
+      votes: 0,
+    };
 
     setIsPostingComment(true);
-    API.postCommentForArticle(article_id, user, newComment)
-      .then((comment) => {
-        console.log(comment);
-        setCommentList((currentCommentList) => {
-          return [comment, ...currentCommentList];
-        });
-        setNewComment("");
-        toast.success("Successfully posted the comment!");
+    setCommentList((currentCommentList) => {
+      return [comment, ...currentCommentList];
+    });
 
+    setNewComment("");
+    setCommentCountChange((currentCount) => {
+      return currentCount + 1;
+    });
+
+    API.postCommentForArticle(article_id, comment)
+      .then((commentFromDb) => {
+        toast.success("Successfully posted the comment!");
         setIsPostingComment(false);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("OOPS!!!,Something went wrong, please try again later");
+        setCommentList((currentCommentList) => {
+          const newCommentList = [...currentCommentList];
+          newCommentList.shift();
+          return newCommentList;
+        });
+        setCommentCountChange((currentCount) => {
+          return currentCount - 1;
+        });
+
+        setIsPostingComment(false);
       });
   };
   return (
