@@ -73,7 +73,7 @@ const SingleArticle = () => {
 
         <div className="comment-vote-container">
           <span className="comment">
-            <FaRegCommentAlt /> {console.log(commentCountChange)}
+            <FaRegCommentAlt />
             {commentCountChange
               ? article.comment_count + commentCountChange
               : article.comment_count}
