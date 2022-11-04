@@ -8,6 +8,7 @@ import ListRecentArticles from "./components/ListRecentArticles";
 import ListAllArticles from "./components/ListAllArticles";
 import ListAllTopics from "./components/ListAllTopics";
 import SingleArticle from "./components/SingleArticle";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   const [user, setUser] = useState("tickle122");
@@ -31,6 +32,7 @@ function App() {
                 path="/articles/:article_id"
                 element={<SingleArticle />}
               ></Route>
+              <Route path="*" element={<ErrorPage />}></Route>
             </Routes>
           </main>
         </div>

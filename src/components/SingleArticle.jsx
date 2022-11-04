@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
-import toast, { Toaster } from "react-hot-toast";
 import CommentContainer from "./CommentContainer";
 import PostCommentForm from "./PostCommentForm";
 import * as API from "../api";
+import ErrorPage from "./ErrorPage";
+import toast, { Toaster } from "react-hot-toast";
 
 const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,51 +15,80 @@ const SingleArticle = () => {
   const [voteChangeValue, setVoteChangeValue] = useState(0);
   const [commentList, setCommentList] = useState([]);
   const [commentCountChange, setCommentCountChange] = useState(0);
+  const [error, setError] = useState(null);
   const { article_id } = useParams();
 
   useEffect(() => {
     setIsLoading(true);
-    API.getArticleById(article_id).then((article) => {
-      setArticle(article);
-      setIsLoading(false);
-    });
+    API.getArticleById(article_id)
+      .then((article) => {
+        setArticle(article);
+        setIsLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        if (err.response) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = err;
+
+          setError({ message, status });
+        } else {
+          const message = err.message;
+          setError({ message });
+        }
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
     setIsLoading(true);
-    API.getCommentsByArticleId(article_id).then((comments) => {
-      setCommentList(comments);
-      setIsLoading(false);
-    });
+    API.getCommentsByArticleId(article_id)
+      .then((comments) => {
+        setCommentList(comments);
+        setIsLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        const {
+          response: {
+            data: { message },
+            status,
+          },
+        } = err;
+
+        setError({ message, status });
+        setIsLoading(false);
+      });
   }, []);
 
   const handleVoteIncreaseClick = () => {
     setVoteChangeValue((currVote) => currVote + 1);
 
-    API.updateArticleVote(article_id, 1)
-      .then((article) => {
-        // toast.success("Successfully updated vote!");
-      })
-      .catch((err) => {
-        setVoteChangeValue((currVote) => currVote - 1);
-        toast.error("OOPS!!!, Something went wrong, please try again later");
-      });
+    API.updateArticleVote(article_id, 1).catch((err) => {
+      toast.error("OOPS!!!,Something went wrong, please try again later");
+
+      setVoteChangeValue((currVote) => currVote - 1);
+    });
   };
 
   const handleVoteDecreaseClick = () => {
     setVoteChangeValue((currVote) => currVote - 1);
-    API.updateArticleVote(article_id, -1)
-      .then((article) => {
-        // toast.success("Successfully updated vote!");
-      })
-      .catch((err) => {
-        setVoteChangeValue((currVote) => currVote + 1);
-        toast.error("OOPS!!!, Something went wrong, please try again later");
-      });
+
+    API.updateArticleVote(article_id, -1).catch((err) => {
+      toast.error("OOPS!!!,Something went wrong, please try again later");
+
+      setVoteChangeValue((currVote) => currVote + 1);
+    });
   };
 
   return isLoading ? (
     <p>Loading ...</p>
+  ) : error ? (
+    <ErrorPage message={error.message} status={error.status} />
   ) : (
     <>
       <div>
@@ -118,6 +148,7 @@ const SingleArticle = () => {
           commentList={commentList}
           isLoading={isLoading}
           setCommentCountChange={setCommentCountChange}
+          setError={setError}
         />
       </div>
     </>
