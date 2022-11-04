@@ -189,6 +189,15 @@ ul {
   border-radius: 10px;
   border: 1px solid gray;
 }
+#delete-btn {
+  display: inline;
+  border: none;
+  background: none;
+  font-size: large;
+}
+.btn-container {
+  display: flex;
+}
 .sort-label {
   padding: 10px;
   font-weight: bold;

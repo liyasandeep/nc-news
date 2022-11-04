@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as API from "../api";
 import ArticleCard from "../components/ArticleCard";
 import SortAndOrderSection from "./SortAndOrderSection";
