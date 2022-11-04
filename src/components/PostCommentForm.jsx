@@ -23,10 +23,12 @@ const PostCommentForm = ({
       body: newComment,
       created_at: Date.now(),
       votes: 0,
+      article_id: article_id,
     };
 
     setIsPostingComment(true);
     setCommentList((currentCommentList) => {
+      comment.comment_id = currentCommentList.length;
       return [comment, ...currentCommentList];
     });
 
@@ -37,6 +39,11 @@ const PostCommentForm = ({
 
     API.postCommentForArticle(article_id, comment)
       .then((commentFromDb) => {
+        setCommentList((currentCommentList) => {
+          const newCommentList = [...currentCommentList];
+          newCommentList.shift();
+          return [commentFromDb, ...newCommentList];
+        });
         toast.success("Successfully posted the comment!");
         setIsPostingComment(false);
       })

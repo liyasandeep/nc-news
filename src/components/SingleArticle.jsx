@@ -133,8 +133,14 @@ const SingleArticle = () => {
           setCommentCountChange={setCommentCountChange}
         />
       </div>
+
       <div className="comment-container">
-        <CommentContainer commentList={commentList} isLoading={isLoading} />
+        <CommentContainer
+          setCommentList={setCommentList}
+          commentList={commentList}
+          isLoading={isLoading}
+          setCommentCountChange={setCommentCountChange}
+        />
       </div>
     </>
   );
