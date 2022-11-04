@@ -14,6 +14,7 @@ const ListAllTopics = () => {
       .then((topics) => {
         setTopicList(topics);
         setIsLoading(false);
+        setError(null);
       })
       .catch((err) => {
         const {

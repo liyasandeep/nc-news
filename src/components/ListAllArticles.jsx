@@ -20,6 +20,7 @@ const ListAllArticles = () => {
       .then((articles) => {
         setArticleList(articles);
         setIsLoading(false);
+        setError(null);
       })
       .catch((err) => {
         const {

@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import CommentContainer from "./CommentContainer";
 import PostCommentForm from "./PostCommentForm";
 import * as API from "../api";
+import ErrorPage from "./ErrorPage";
 
 const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,22 +15,49 @@ const SingleArticle = () => {
   const [voteChangeValue, setVoteChangeValue] = useState(0);
   const [commentList, setCommentList] = useState([]);
   const [commentCountChange, setCommentCountChange] = useState(0);
+  const [error, setError] = useState(null);
   const { article_id } = useParams();
 
   useEffect(() => {
     setIsLoading(true);
-    API.getArticleById(article_id).then((article) => {
-      setArticle(article);
-      setIsLoading(false);
-    });
+    API.getArticleById(article_id)
+      .then((article) => {
+        setArticle(article);
+        setIsLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        console.dir(err);
+        const {
+          response: {
+            data: { message },
+            status,
+          },
+        } = err;
+        setError({ message, status });
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
     setIsLoading(true);
-    API.getCommentsByArticleId(article_id).then((comments) => {
-      setCommentList(comments);
-      setIsLoading(false);
-    });
+    API.getCommentsByArticleId(article_id)
+      .then((comments) => {
+        setCommentList(comments);
+        setIsLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        const {
+          response: {
+            data: { message },
+            status,
+          },
+        } = err;
+
+        setError({ message, status });
+        setIsLoading(false);
+      });
   }, []);
 
   const handleVoteIncreaseClick = () => {
@@ -51,6 +79,8 @@ const SingleArticle = () => {
 
   return isLoading ? (
     <p>Loading ...</p>
+  ) : error ? (
+    <ErrorPage message={error.message} status={error.status} />
   ) : (
     <>
       <div>

@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
 import * as API from "../api";
-import ArticleCard from "../components/ArticleCard";
+import ArticleCard from "./ArticleCard";
+import ErrorPage from "./ErrorPage";
 
 const ListRecentArticles = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [articleList, setArticleList] = useState("");
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     setIsLoading(true);
+    API.getAllArticles()
+      .then((articles) => {
+        const first10Articles = articles.slice(0, 10);
+        setArticleList(first10Articles);
+        setIsLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        const {
+          response: {
+            data: { message },
+            status,
+          },
+        } = err;
 
-    API.getAllArticles().then((articles) => {
-      const first10Articles = articles.slice(0, 10);
-      setArticleList(first10Articles);
-      setIsLoading(false);
-    });
+        setError({ message, status });
+        setIsLoading(false);
+      });
   }, []);
   return isLoading ? (
     <p>Loading ...</p>
+  ) : error ? (
+    <ErrorPage message={error.message} status={error.status} />
   ) : (
     <section className="article-list">
       <h2>Recent Articles</h2>
