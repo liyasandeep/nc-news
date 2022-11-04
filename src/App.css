@@ -204,6 +204,16 @@ ul {
 #order {
   padding: 2px 7px;
 }
+#error {
+  font-size: x-large;
+  color: red;
+  padding: 10px;
+  margin: 50px;
+}
+.error-link {
+  color: black;
+  font-size: 20px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
