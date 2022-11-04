@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import * as API from "../api";
 import TopicCard from "./TopicCard";
 import ErrorPage from "./ErrorPage";
+
 const ListAllTopics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [topicList, setTopicList] = useState("");
@@ -17,14 +18,19 @@ const ListAllTopics = () => {
         setError(null);
       })
       .catch((err) => {
-        const {
-          response: {
-            data: { message },
-            status,
-          },
-        } = err;
+        if (err.response) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = err;
 
-        setError({ message, status });
+          setError({ message, status });
+        } else {
+          const message = err.message;
+          setError({ message });
+        }
         setIsLoading(false);
       });
   }, []);

@@ -5,8 +5,10 @@ const CommentContainer = ({
   setCommentList,
   commentList,
   isLoading,
+  setError,
 }) => {
   if (isLoading) return <p>Loading ...</p>;
+
   return (
     <ul>
       {commentList.map((comment, index) => {
@@ -16,6 +18,7 @@ const CommentContainer = ({
             comment={comment}
             setCommentList={setCommentList}
             setCommentCountChange={setCommentCountChange}
+            setError={setError}
           />
         );
       })}

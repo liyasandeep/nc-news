@@ -3,7 +3,13 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import * as API from "../api";
 import toast, { Toaster } from "react-hot-toast";
-const CommentCard = ({ comment, setCommentList, setCommentCountChange }) => {
+
+const CommentCard = ({
+  comment,
+  setCommentList,
+  setCommentCountChange,
+  setError,
+}) => {
   const { user } = useContext(UserContext);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -27,12 +33,27 @@ const CommentCard = ({ comment, setCommentList, setCommentCountChange }) => {
         });
         toast.success("Successfully deleted the comment!");
         setIsDeleting(false);
+        setError(null);
       })
       .catch((err) => {
+        if (err.response) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = err;
+
+          setError({ message, status });
+        } else {
+          const message = err.message;
+          setError({ message });
+        }
+
         setCommentCountChange((currentCount) => {
           return currentCount + 1;
         });
-        toast.error("OOPS!!!,Something went wrong, please try again later");
+
         setIsDeleting(false);
       });
   };

@@ -23,17 +23,24 @@ const ListAllArticles = () => {
         setError(null);
       })
       .catch((err) => {
-        const {
-          response: {
-            data: { message },
-            status,
-          },
-        } = err;
+        if (err.response) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = err;
 
-        setError({ message, status });
+          setError({ message, status });
+        } else {
+          const message = err.message;
+          setError({ message });
+        }
+
         setIsLoading(false);
       });
   }, [topicName, selectSortValue, selectOrderValue]);
+
   return isLoading ? (
     <p>Loading ...</p>
   ) : error ? (

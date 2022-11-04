@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
-import toast, { Toaster } from "react-hot-toast";
 import CommentContainer from "./CommentContainer";
 import PostCommentForm from "./PostCommentForm";
 import * as API from "../api";
 import ErrorPage from "./ErrorPage";
+import toast, { Toaster } from "react-hot-toast";
 
 const SingleArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,14 +27,19 @@ const SingleArticle = () => {
         setError(null);
       })
       .catch((err) => {
-        console.dir(err);
-        const {
-          response: {
-            data: { message },
-            status,
-          },
-        } = err;
-        setError({ message, status });
+        if (err.response) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = err;
+
+          setError({ message, status });
+        } else {
+          const message = err.message;
+          setError({ message });
+        }
         setIsLoading(false);
       });
   }, []);
@@ -64,16 +69,19 @@ const SingleArticle = () => {
     setVoteChangeValue((currVote) => currVote + 1);
 
     API.updateArticleVote(article_id, 1).catch((err) => {
+      toast.error("OOPS!!!,Something went wrong, please try again later");
+
       setVoteChangeValue((currVote) => currVote - 1);
-      toast.error("OOPS!!!, Something went wrong, please try again later");
     });
   };
 
   const handleVoteDecreaseClick = () => {
     setVoteChangeValue((currVote) => currVote - 1);
+
     API.updateArticleVote(article_id, -1).catch((err) => {
+      toast.error("OOPS!!!,Something went wrong, please try again later");
+
       setVoteChangeValue((currVote) => currVote + 1);
-      toast.error("OOPS!!!, Something went wrong, please try again later");
     });
   };
 
@@ -140,6 +148,7 @@ const SingleArticle = () => {
           commentList={commentList}
           isLoading={isLoading}
           setCommentCountChange={setCommentCountChange}
+          setError={setError}
         />
       </div>
     </>

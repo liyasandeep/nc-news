@@ -49,6 +49,7 @@ const PostCommentForm = ({
       })
       .catch((err) => {
         toast.error("OOPS!!!,Something went wrong, please try again later");
+
         setCommentList((currentCommentList) => {
           const newCommentList = [...currentCommentList];
           newCommentList.shift();

@@ -3,17 +3,18 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import * as API from "../api";
-import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const ArticleCard = ({ article }) => {
   const [voteChangeValue, setVoteChangeValue] = useState(0);
+
   const handleVoteIncreaseClick = (article_id) => {
     setVoteChangeValue((currVote) => currVote + 1);
 
     API.updateArticleVote(article_id, 1).catch((err) => {
+      toast.error("OOPS!!!,Something went wrong, please try again later");
       setVoteChangeValue((currVote) => currVote - 1);
-      toast.error("OOPS!!!, Something went wrong, please try again later");
     });
   };
 
@@ -21,8 +22,9 @@ const ArticleCard = ({ article }) => {
     setVoteChangeValue((currVote) => currVote - 1);
 
     API.updateArticleVote(article_id, -1).catch((err) => {
+      toast.error("OOPS!!!,Something went wrong, please try again later");
+
       setVoteChangeValue((currVote) => currVote + 1);
-      toast.error("OOPS!!!, Something went wrong, please try again later");
     });
   };
 
