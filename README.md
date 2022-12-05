@@ -10,7 +10,7 @@ React was used to build the front end of the news website which makes use of an 
 
 You can find the deployed version of the React app [here](https://nc-news-liya.netlify.app/).
 
-You can find the API hosted using heroku [here](https://nc-news-be-liya.herokuapp.com/api/)
+You can find the API hosted using Cyclic [here](https://be-nc-newss.cyclic.app/api/)
 
 You can find the API repo [here](https://github.com/liyasandeep/be-nc-newss)
 
